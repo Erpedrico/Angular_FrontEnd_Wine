@@ -47,7 +47,7 @@ export class ExperienciaComponent implements OnInit {
 
   ngOnInit(): void {
     this.getExperiencias(); // Obtener la lista de experiencias
-    this.getUsers(); // Obtener la lista de usuarios
+    this.getAllUsers(); // Obtener la lista de usuarios
 
   }
 
@@ -93,7 +93,7 @@ export class ExperienciaComponent implements OnInit {
   }
 
   // Obtener la lista de usuarios desde la API
-  getUsers(): void {
+  /*getUsers(): void {
     this.userService.getUsers(this.nuevapaginacion).subscribe(
       (data: User[]) => {
         this.users = data;
@@ -104,6 +104,31 @@ export class ExperienciaComponent implements OnInit {
       }
     );
   }
+
+  getAllUsers(): void {
+    this.userService.getAllUsers().subscribe(
+      (data: User[]) => {
+        this.users = data;
+        console.log('Todos los usuarios recibidos:', data);
+      },
+      (error) => {
+        console.error('Error al obtener todos los usuarios:', error);
+      }
+    );
+  }*/
+
+    getAllUsers(): void {
+      this.userService.getAllUsers().subscribe(
+        (data: User[]) => {
+          this.users = data;
+          console.log('Usuarios sin paginación:', data);
+        },
+        (error) => {
+          console.error('Error al obtener usuarios sin paginación:', error);  // Muestra todo el error
+        }
+      );
+    }
+
   
   onFilter(): void {
     this.ownerFilter = this.newExperience2.owner;

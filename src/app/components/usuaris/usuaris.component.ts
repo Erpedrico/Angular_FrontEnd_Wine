@@ -73,7 +73,6 @@ export class UsuarisComponent implements OnInit {
     this.getUsers();
   }
 
-
   ngOnInit(): void {
     // Cargar usuarios desde el UserService
     this.getUsers();
@@ -115,6 +114,11 @@ export class UsuarisComponent implements OnInit {
       }
     );
   }
+
+
+  
+
+
 
   // Obtener la lista de experiencias desde la API
   getExperiencias(): void {
