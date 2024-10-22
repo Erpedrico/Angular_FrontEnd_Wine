@@ -19,9 +19,18 @@ import { pageInterface } from '../../models/paginacion.model';
 export class ExperienciaComponent implements OnInit {
   experiencias: Experiencia[] = []; // Lista de experiencias
   users: User[] = []; // Lista de usuarios para los desplegables
+  usersfe: User[] = []; // Lista de usuarios para los desplegables
   selectedParticipants: string[] = []; // Participantes seleccionados como ObjectId
   errorMessage: string = ''; // Variable para mostrar mensajes de error
-  ownerFilter: string = '';
+  ownerFilter: undefined | string = '' ;
+
+  nuevoUsuario: User = {
+    name: '',
+    mail: '', // Añadir el campo email
+    password: '',
+    comment: '',
+    habilitado: true
+  };
 
   nuevapaginacion: pageInterface = {
     paginas: 1,
@@ -30,15 +39,17 @@ export class ExperienciaComponent implements OnInit {
 
   // Estructura inicial para una nueva experiencia
   newExperience: Experiencia = {
-    owner: '',
-    participants: [],
-    description: ''
+    owner: this.nuevoUsuario,
+    participants: this.usersfe,
+    description: '',
+    habilitado: true
   };
 
   newExperience2: Experiencia = {
-    owner: '',
-    participants: [],
-    description: ''
+    owner: this.nuevoUsuario,
+    participants: this.usersfe,
+    description: '',
+    habilitado:true
   };
 
   constructor(private experienciaService: ExperienciaService, private userService: UserService) {}
@@ -65,7 +76,7 @@ export class ExperienciaComponent implements OnInit {
     );
   }
 
-  getExperienciasFiltradas(ownerF:string): void {
+  getExperienciasFiltradas(ownerF:string|undefined): void {
     if (ownerF==''){
       this.experienciaService.getExperiencias().subscribe(
         (data: Experiencia[]) => {
@@ -81,7 +92,7 @@ export class ExperienciaComponent implements OnInit {
       this.experienciaService.getExperiencias().subscribe(
         (data: Experiencia[]) => {
           // Filtrar experiencias que tengan _id definido
-          this.experiencias = data.filter(exp => exp._id !== undefined && exp.owner == ownerF);
+          this.experiencias = data.filter(exp => exp._id !== undefined && exp.owner.name == ownerF);
           console.log('Experiencias recibidas:', data);
         },
         (error) => {
@@ -106,13 +117,14 @@ export class ExperienciaComponent implements OnInit {
   }
   
   onFilter(): void {
-    this.ownerFilter = this.newExperience2.owner;
+    this.ownerFilter = this.newExperience2.owner._id;
     console.log('filtrao',this.newExperience2.owner);
     this.getExperienciasFiltradas(this.ownerFilter);
     this.newExperience = {
-      owner: '',
-      participants: [],
-      description: ''
+      owner: this.nuevoUsuario,
+      participants: this.usersfe,
+      description: '',
+      habilitado: true
     };
   }
 
@@ -122,13 +134,19 @@ export class ExperienciaComponent implements OnInit {
   }
 
   // Obtener el nombre de un usuario dado su ObjectId
-  getUserNameById(userId: string): string|null {
-    const user = this.users.find((u) => u._id === userId);
-    return user ? user.name : 'Desconocido';
+  getUserNameById(participantes:User): string|null {
+    const user = participantes.name;
+    return user ? user : 'Desconocido';
   }
 
+  getNameByOwner(participantes:User): string|null {
+    const user = participantes.name;
+    return user ? user : 'Desconocido';
+  }
+  
   // Manejar el envío del formulario con validación de campos
   onSubmit(): void {
+    /*
     this.errorMessage = ''; // Limpiar mensajes de error
 
     // Verificar si los campos están vacíos
@@ -151,6 +169,7 @@ export class ExperienciaComponent implements OnInit {
         console.error('Error al crear la experiencia:', error);
       }
     );
+    */
   }
 
   // Método para eliminar una experiencia por su ID
@@ -169,11 +188,30 @@ export class ExperienciaComponent implements OnInit {
   // Resetear el formulario después de crear una experiencia
   resetForm(): void {
     this.newExperience = {
-      owner: '',
-      participants: [],
-      description: ''
+      owner: this.nuevoUsuario,
+      participants: this.usersfe,
+      description: '',
+      habilitado: true
     };
     this.selectedParticipants = []; // Limpiar los participantes seleccionados
     this.errorMessage = ''; // Limpiar el mensaje de error
+  }
+
+  toggleHabilitacion(index: number): void {
+    const experiencia = this.experiencias[index];
+    
+    // Alternar el valor de habilitado
+    const nuevoEstado = !experiencia.habilitado;
+  
+    // Llamar al servicio para actualizar el estado en la base de datos
+    this.experienciaService.toggleHabilitacion(experiencia._id!, nuevoEstado).subscribe(
+      (actualizado: Experiencia) => {
+        // Actualizar el usuario en el array del frontend
+        this.experiencias[index].habilitado = nuevoEstado;
+      },
+      (error) => {
+        console.error('Error al cambiar el estado de habilitación:', error);
+      }
+    );
   }
 }

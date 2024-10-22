@@ -16,6 +16,11 @@ export class VinosService {
     return this.http.get<Vinos[]>(this.apiUrl);
   }
 
+  //Habilitar o deshabilitar un vino
+  toggleHabilitacion(id: string, habilitado: boolean): Observable<Vinos> {
+    return this.http.patch<Vinos>(`${this.apiUrl}/${id}/habilitacion`, { habilitado });
+  }
+
   // // Eliminar una experiencia por su ID
   // deleteVino(id: string): Observable<void> {
   //   return this.http.delete<void>(`${this.apiUrl}/${id}`);

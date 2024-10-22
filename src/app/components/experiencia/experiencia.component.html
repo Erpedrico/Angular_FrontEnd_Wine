@@ -56,8 +56,8 @@
   <div class="experiencia-list">
     <h1>Lista de Experiencias</h1>
     <ul>
-      <li *ngFor="let experiencia of experiencias">
-        <h3>Propietario: {{ getUserNameById(experiencia.owner) }}</h3>
+      <li *ngFor="let experiencia of experiencias; let i = index">
+        <h3>Propietario: {{ getNameByOwner(experiencia.owner) }}</h3>
         <!-- <p>Descripción: {{ experiencia.description | truncate: 60}}</p> -->
         <p>Descripción: {{ experiencia.description}}</p>
         <h4>Participantes:</h4>
@@ -66,6 +66,9 @@
             {{ getUserNameById(participant) }}
           </li>
         </ul>
+        <button (click)="toggleHabilitacion(i)">
+          {{ experiencia.habilitado ? 'Inhabilitar' : 'Habilitar' }}
+        </button>
         <!-- Botón para eliminar la experiencia -->
         <button *ngIf="experiencia._id !== undefined" (click)="deleteExperience(experiencia._id)">Eliminar</button>
       </li>

@@ -26,4 +26,9 @@ export class ExperienciaService {
   deleteExperiencia(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  //Habilitar o deshabilitar un usuario
+  toggleHabilitacion(id: string, habilitado: boolean): Observable<Experiencia> {
+    return this.http.patch<Experiencia>(`${this.apiUrl}/${id}/habilitacion`, { habilitado });
+  }
 }
