@@ -1,6 +1,6 @@
 /* Estilo global para toda la página con fondo blanco roto */
 body {
     background-color: #cfc49b; /* Blanco roto */
-    
+    cursor: url('assets/custom/pink-custom-cursor_1.cur'), auto;
   }
   

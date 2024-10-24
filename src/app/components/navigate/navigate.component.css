@@ -20,6 +20,7 @@ li a {
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+    cursor: url('/assets/custom/pink-custom-cursor-hand.cur'), auto;
 }
 
 li a:hover {

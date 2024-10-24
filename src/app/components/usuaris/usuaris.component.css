@@ -44,6 +44,7 @@ label {
   color: #FAF3E0; /* Blanco roto */
   margin-bottom: 5px;
   display: block; /* Asegurar que las etiquetas estén en su propia línea */
+  cursor: url('/assets/custom/pink-custom-cursor_1.cur'), auto;
 }
 
 /* Campos de texto y área de texto */
@@ -55,6 +56,7 @@ input, textarea {
   margin-bottom: 15px;
   margin-right: 10px; /* Margen a la derecha para separar del contenedor */
   box-sizing: border-box; /* Incluir padding y borde dentro del ancho */
+  cursor: url('/assets/custom/pink-custom-cursor_I.cur'), auto;
 }
 
 /* Botón del formulario */
@@ -67,6 +69,7 @@ input, textarea {
   cursor: pointer;
   font-size: 1rem;
   transition: background-color 0.3s ease;
+  cursor: url('/assets/custom/pink-custom-cursor-hand.cur'), auto;
 }
 
 
@@ -136,6 +139,7 @@ button {
 /* Botón de mostrar detalles (verde claro) */
 button.mostrar-detalles {
   background-color: #4CAF50; /* Verde claro */
+  cursor: url('/assets/custom/pink-custom-cursor-hand.cur'), auto;
 }
 
 button.mostrar-detalles:hover {
@@ -145,6 +149,7 @@ button.mostrar-detalles:hover {
 /* Botón de eliminar (verde oscuro) */
 button.eliminar {
   background-color: #388E3C; /* Verde más oscuro */
+  cursor: url('/assets/custom/pink-custom-cursor-hand.cur'), auto;
 }
 
 button.eliminar:hover {
@@ -154,6 +159,7 @@ button.eliminar:hover {
 /* Botón de modificar (verde caqui) */
 button.modificar {
   background-color: #808000; /* Verde caqui */
+  cursor: url('/assets/custom/pink-custom-cursor-hand.cur'), auto;
 }
 
 button.modificar:hover {
@@ -162,6 +168,7 @@ button.modificar:hover {
 /* Botón de leer más/leer menos igual al de mostrar detalles */
 button.leer-mas {
   background-color: #4CAF50; /* Verde claro */
+  cursor: url('/assets/custom/pink-custom-cursor-hand.cur'), auto;
 }
 
 button.leer-mas:hover {
@@ -184,6 +191,7 @@ button {
   margin: 5px;
   cursor: pointer;
   font-size: 16px;
+  cursor: url('/assets/custom/pink-custom-cursor-hand.cur'), auto;
 }
 
 button.active {

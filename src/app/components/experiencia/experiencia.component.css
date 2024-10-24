@@ -27,6 +27,7 @@ body {
   width: 35%;
   text-align: center;
   margin-right: -10px; /* Ajuste de margen para juntar más los elementos */
+  cursor: url('/assets/custom/pink-custom-cursor_1.cur'), auto;
 }
 
 .experiencia-form2 {
@@ -39,6 +40,7 @@ body {
   width: 35%;
   text-align: center;
   margin-right: -10px; /* Ajuste de margen para juntar más los elementos */
+  cursor: url('/assets/custom/pink-custom-cursor_1.cur'), auto;
 }
 
 /* Título */
@@ -46,6 +48,7 @@ h2 {
   color: #FAF3E0; /* Blanco roto para los títulos */
   font-size: 2rem;
   margin-bottom: 20px;
+  cursor: url('/assets/custom/pink-custom-cursor_1.cur'), auto;
 }
 
 /* Estilos para los inputs y textarea */
@@ -57,11 +60,13 @@ input[type="text"], textarea, select {
   border: 2px solid #4C0000; /* Rojo oscuro para los bordes */
   font-size: 1rem;
   box-sizing: border-box;
+  cursor: url('/assets/custom/pink-custom-cursor-hand.cur'), auto;
 }
 
 textarea {
   height: 120px; /* Tamaño fijo para el área de texto */
   resize: none; /* Evitar el redimensionamiento */
+  cursor: url('/assets/custom/pink-custom-cursor_I.cur'), auto;
 }
 
 input[type="text"]:focus, textarea:focus, select:focus {
@@ -87,6 +92,7 @@ button {
   border-radius: 25px;
   margin-top: 15px;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  cursor: url('/assets/custom/pink-custom-cursor-hand.cur'), auto;
 }
 
 button:hover {
@@ -116,6 +122,7 @@ button:hover {
   border-radius: 10px;
   margin-bottom: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: url('/assets/custom/pink-custom-cursor_1.cur'), auto;
 }
 
 .experiencia-list h3, .experiencia-list p, .experiencia-list h4 {
