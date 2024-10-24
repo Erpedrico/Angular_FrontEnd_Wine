@@ -12,17 +12,23 @@ export class VinosService {
 
   constructor(private http: HttpClient) {}
 
+  //Obtener todos los vinos
   getVinos(): Observable<Vinos[]> {
     return this.http.get<Vinos[]>(this.apiUrl);
+  }
+
+  // Agregar un nuevo vino
+   addVino(vino: Vinos): Observable<Vinos> {
+    return this.http.post<Vinos>(this.apiUrl, vino);
+  }
+
+  // Eliminar un vino por su _id
+  deleteVinoById(id: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
 
   //Habilitar o deshabilitar un vino
   toggleHabilitacion(id: string, habilitado: boolean): Observable<Vinos> {
     return this.http.patch<Vinos>(`${this.apiUrl}/${id}/habilitacion`, { habilitado });
   }
-
-  // // Eliminar una experiencia por su ID
-  // deleteVino(id: string): Observable<void> {
-  //   return this.http.delete<void>(`${this.apiUrl}/${id}`);
-  // }
 }

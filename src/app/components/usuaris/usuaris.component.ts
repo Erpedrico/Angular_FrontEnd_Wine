@@ -248,21 +248,19 @@ export class UsuarisComponent implements OnInit {
       alert('El usuario no se puede eliminar porque no está registrado en la base de datos.');
       return;
     }
-  
-    if (confirm(`¿Estás seguro de que deseas eliminar a ${usuarioAEliminar.name}?`)) {
       // Eliminar a través del UserService usando el _id como identificador
       this.userService.deleteUserById(usuarioAEliminar._id).subscribe(
         response => {
           console.log('Usuario eliminado:', response);
-          this.usuarios.splice(index, 1);
-          this.desplegado.splice(index, 1);
-        },
-        error => {
-          console.error('Error al eliminar el usuario:', error);
-          alert('Error al eliminar el usuario. Por favor, inténtalo de nuevo.');
-        }
-      );
-    }
+            this.usuarios.splice(index, 1);
+            this.desplegado.splice(index, 1);
+          },
+          error => {
+            console.error('Error al eliminar el usuario:', error);
+            alert('Error al eliminar el usuario. Por favor, inténtalo de nuevo.');
+          }
+        );
+    
   }
   
 

@@ -1,21 +1,112 @@
-<!-- Lista de vinos -->
-<div class="vinos-list">
-    <h1>Lista de Vinos</h1>
-    <ul>
-      <li *ngFor="let vino of vinos; let i = index">
-        <h3>Nombre: {{ vino.name }}</h3>
-        <!-- <p>Descripción: {{ experiencia.description | truncate: 60}}</p> -->
-        <p>Precio: {{ vino.price}}</p>
-        <p>Color: {{ vino.color}}</p>
-        <p>Marca: {{ vino.brand}}</p>
-        <p>Grapetype: {{ vino.grapetype}}</p>
-        <button (click)="toggleHabilitacion(i)">
-          {{ vino.habilitado ? 'Inhabilitar' : 'Habilitar' }}
-        </button>
-        
-        
-        <!-- Botón para eliminar la experiencia -->
-        <!-- <button *ngIf="experiencia._id !== undefined" (click)="deleteExperience(experiencia._id)">Eliminar</button> -->
-      </li>
-    </ul>
+<div class="container">
+  <!-- Botón para mostrar el formulario -->
+  <button (click)="mostrarFormulario()">Crear nuevo vino</button>
+
+  <!-- Formulario a la izquierda -->
+  <div *ngIf="formularioVisible" class="form-container">
+    
+    <form (ngSubmit)="agregarElemento(vinoForm)" #vinoForm="ngForm">
+      
+      <div class="form-group">
+        <label for="dueño"> Owner:</label>
+        <input 
+          id="dueño" 
+          [(ngModel)]="nuevoVino.owner" 
+          [ngModelOptions]="{standalone: true}"
+          owner="owner" 
+          placeholder="Dueño del vino" 
+          required />
+      </div>
+
+      <div class="form-group">
+        <label for="nombre">Nombre:</label>
+        <input 
+          id="nombre" 
+          [(ngModel)]="nuevoVino.name" 
+          name="name" 
+          placeholder="Nombre del usuario" 
+          required />
+      </div>
+    
+      <div class="form-group">
+        <label for="precio">Precio:</label>
+          <input 
+            id="precio" 
+            [(ngModel)]="nuevoVino.price" 
+            [ngModelOptions]="{standalone: true}"
+            price="price" 
+            placeholder="Precio del vino" 
+            required />
+      </div>
+     
+      <div class="form-group">
+        <label for="color">Color:</label>
+          <input 
+            id="color" 
+            [(ngModel)]="nuevoVino.color" 
+            [ngModelOptions]="{standalone: true}"
+            color="color" 
+            placeholder="Color del vino" 
+            required />
+      </div>
+      
+      <div class="form-group">
+        <label for="marca">Marca:</label>
+          <input 
+            id="marca" 
+            [(ngModel)]="nuevoVino.brand" 
+            [ngModelOptions]="{standalone: true}"
+            brand="brand" 
+            placeholder="Marca del vino" 
+            required />
+      </div>
+      
+      <div class="form-group">
+        <label for="tipouva">Grapetype:</label>
+          <input 
+            id="tipouva" 
+            [(ngModel)]="nuevoVino.grapetype" 
+            [ngModelOptions]="{standalone: true}"
+            grapetype="grapetype" 
+            placeholder="Tipo de uva" 
+            required />
+      </div>
+
+      <button type="submit">Enviar</button>
+      <!-- Botón para cerrar el formulario -->
+      <button type="button" (click)="cerrarFormulario()">Cerrar</button>
+
+    </form>
   </div>
+
+  <!-- Lista de vinos -->
+  <div class="vinos-list">
+      <h1>Lista de Vinos</h1>
+      <ul>
+        <li *ngFor="let vino of vinos; let i = index">
+          <h3>Nombre: {{ vino.name }}</h3>
+          <!-- <p>Descripción: {{ experiencia.description | truncate: 60}}</p> -->
+          <p>Precio: {{ vino.price}}</p>
+          <p>Color: {{ vino.color}}</p>
+          <p>Marca: {{ vino.brand}}</p>
+          <p>Grapetype: {{ vino.grapetype}}</p>
+          <button (click)="toggleHabilitacion(i)">
+            {{ vino.habilitado ? 'Inhabilitar' : 'Habilitar' }}
+          </button>
+
+          <button (click)="showModal()" class="eliminar">Eliminar</button>
+          <div class="modal" *ngIf="isModalVisible">
+            <div class="modal-content">
+              <h2>¿Estás seguro?</h2>
+              <p>¿Realmente deseas eliminar este vino?</p>
+              <div class="modal-footer">
+                <button (click)="eliminarElemento(i)" (click)="closeModal()">Sí</button>
+                <button (click)="closeModal()">No</button>
+              </div>
+            </div>
+          </div> 
+          
+        </li>
+      </ul>
+    </div>
+</div>
