@@ -23,6 +23,7 @@ export class ExperienciaComponent implements OnInit {
   selectedParticipants: string[] = []; // Participantes seleccionados como ObjectId
   errorMessage: string = ''; // Variable para mostrar mensajes de error
   ownerFilter: undefined | string = '' ;
+  isModalVisible: boolean = false;
 
   nuevoUsuario: User = {
     name: '',
@@ -213,5 +214,13 @@ export class ExperienciaComponent implements OnInit {
         console.error('Error al cambiar el estado de habilitación:', error);
       }
     );
+  }
+
+  showModal() {
+    this.isModalVisible = true;
+  }
+
+  closeModal() {
+    this.isModalVisible = false;
   }
 }

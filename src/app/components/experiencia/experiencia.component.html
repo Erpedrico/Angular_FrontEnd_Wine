@@ -70,7 +70,17 @@
           {{ experiencia.habilitado ? 'Inhabilitar' : 'Habilitar' }}
         </button>
         <!-- Botón para eliminar la experiencia -->
-        <button *ngIf="experiencia._id !== undefined" (click)="deleteExperience(experiencia._id)">Eliminar</button>
+        <button (click)="showModal()">Eliminar</button>
+            <div class="modal" *ngIf="isModalVisible">
+              <div class="modal-content">
+                <h2>¿Estás seguro?</h2>
+                <p>¿Realmente deseas eliminar este usuario?</p>
+                <div class="modal-footer">
+                  <button *ngIf="experiencia._id !== undefined" (click)="deleteExperience(experiencia._id)">Sí</button>
+                  <button (click)="closeModal()">No</button>
+                </div>
+              </div>
+            </div> 
       </li>
     </ul>
   </div>

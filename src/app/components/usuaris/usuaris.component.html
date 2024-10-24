@@ -99,7 +99,17 @@
             <button (click)="toggleDesplegable(i)" class="detalles mostrar-detalles">
               {{ desplegado[i] ? 'Ocultar detalles' : 'Mostrar detalles' }}
             </button>
-            <button (click)="eliminarElemento(i)" class="eliminar">Eliminar</button>
+            <button (click)="showModal()" class="eliminar">Eliminar</button>
+            <div class="modal" *ngIf="isModalVisible">
+              <div class="modal-content">
+                <h2>¿Estás seguro?</h2>
+                <p>¿Realmente deseas eliminar este usuario?</p>
+                <div class="modal-footer">
+                  <button (click)="eliminarElemento(i)">Sí</button>
+                  <button (click)="closeModal()">No</button>
+                </div>
+              </div>
+            </div> 
           </div>
         </div>
 
