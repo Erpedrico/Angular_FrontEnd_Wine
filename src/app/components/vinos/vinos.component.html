@@ -4,7 +4,7 @@
     <ul>
       <li *ngFor="let vino of vinos; let i = index">
         <h3>Nombre: {{ vino.name }}</h3>
-        <!-- <p>Descripción: {{ experiencia.description | truncate: 60}}</p> -->
+        <p>Propietario: {{ vino.owner.name}}</p>
         <p>Precio: {{ vino.price}}</p>
         <p>Color: {{ vino.color}}</p>
         <p>Marca: {{ vino.brand}}</p>
@@ -12,7 +12,6 @@
         <button (click)="toggleHabilitacion(i)">
           {{ vino.habilitado ? 'Inhabilitar' : 'Habilitar' }}
         </button>
-        
         
         <!-- Botón para eliminar la experiencia -->
         <!-- <button *ngIf="experiencia._id !== undefined" (click)="deleteExperience(experiencia._id)">Eliminar</button> -->

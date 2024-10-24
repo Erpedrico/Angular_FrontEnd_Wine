@@ -17,6 +17,11 @@ export class UserService {
     return this.http.post<User[]>(`${this.apiUrl}/all`, paginacion);
   }
 
+  // Obtener todos los usuarios
+  findUserByName(paginacion: pageInterface): Observable<User[]> {
+    return this.http.post<User[]>(`${this.apiUrl}/`);
+  }
+
   // Agregar un nuevo usuario
   addUser(usuario: User): Observable<User> {
     return this.http.post<User>(this.apiUrl, usuario);

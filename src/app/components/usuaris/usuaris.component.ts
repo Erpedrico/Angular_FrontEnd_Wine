@@ -249,7 +249,7 @@ export class UsuarisComponent implements OnInit {
       return;
     }
   
-    if (confirm(`¿Estás seguro de que deseas eliminar a ${usuarioAEliminar.name}?`)) {
+    
       // Eliminar a través del UserService usando el _id como identificador
       this.userService.deleteUserById(usuarioAEliminar._id).subscribe(
         response => {
@@ -262,7 +262,7 @@ export class UsuarisComponent implements OnInit {
           alert('Error al eliminar el usuario. Por favor, inténtalo de nuevo.');
         }
       );
-    }
+      this.isModalVisible = false;
   }
   
 

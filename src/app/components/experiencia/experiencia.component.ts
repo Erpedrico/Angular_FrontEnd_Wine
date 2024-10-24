@@ -20,12 +20,19 @@ export class ExperienciaComponent implements OnInit {
   experiencias: Experiencia[] = []; // Lista de experiencias
   users: User[] = []; // Lista de usuarios para los desplegables
   usersfe: User[] = []; // Lista de usuarios para los desplegables
-  selectedParticipants: string[] = []; // Participantes seleccionados como ObjectId
+  usersfe1: User[] = []; // Lista de usuarios para los desplegables
   errorMessage: string = ''; // Variable para mostrar mensajes de error
   ownerFilter: undefined | string = '' ;
   isModalVisible: boolean = false;
 
   nuevoUsuario: User = {
+    name: '',
+    mail: '', // Añadir el campo email
+    password: '',
+    comment: '',
+    habilitado: true
+  };
+  nuevoUsuario1: User = {
     name: '',
     mail: '', // Añadir el campo email
     password: '',
@@ -47,8 +54,8 @@ export class ExperienciaComponent implements OnInit {
   };
 
   newExperience2: Experiencia = {
-    owner: this.nuevoUsuario,
-    participants: this.usersfe,
+    owner: this.nuevoUsuario1,
+    participants: this.usersfe1,
     description: '',
     habilitado:true
   };
@@ -147,17 +154,18 @@ export class ExperienciaComponent implements OnInit {
   
   // Manejar el envío del formulario con validación de campos
   onSubmit(): void {
-    /*
+    
     this.errorMessage = ''; // Limpiar mensajes de error
 
     // Verificar si los campos están vacíos
-    if (!this.newExperience.owner || this.selectedParticipants.length === 0 || !this.newExperience.description) {
+    if (!this.newExperience.owner || !this.newExperience.description) {
       this.errorMessage = 'Todos los campos son obligatorios.';
       return;
     }
 
-    // Convertir selectedParticipants a ObjectId[] antes de enviar al backend
-    this.newExperience.participants = this.selectedParticipants;
+    // Convertir selectedParticipants a ObjectId[] vacío antes de enviar al backend
+    this.newExperience.owner = this.user;
+    this.newExperience.participants = this.users;
 
     // Llamar al servicio para agregar la nueva experiencia
     this.experienciaService.addExperiencia(this.newExperience).subscribe(
@@ -170,7 +178,7 @@ export class ExperienciaComponent implements OnInit {
         console.error('Error al crear la experiencia:', error);
       }
     );
-    */
+    
   }
 
   // Método para eliminar una experiencia por su ID
@@ -184,6 +192,7 @@ export class ExperienciaComponent implements OnInit {
         console.error('Error al eliminar la experiencia:', error);
       }
     );
+    this.isModalVisible = false;
   }
 
   // Resetear el formulario después de crear una experiencia
@@ -194,7 +203,6 @@ export class ExperienciaComponent implements OnInit {
       description: '',
       habilitado: true
     };
-    this.selectedParticipants = []; // Limpiar los participantes seleccionados
     this.errorMessage = ''; // Limpiar el mensaje de error
   }
 
