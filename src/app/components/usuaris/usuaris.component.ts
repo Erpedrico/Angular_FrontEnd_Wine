@@ -111,6 +111,9 @@ export class UsuarisComponent implements OnInit {
           // Si recibimos menos de 5 usuarios, asumimos que es la última página
           this.resuelto = true;
           this.longituddepaginas = this.newPage.paginas + 1;
+          if(data.length==0){
+            this.longituddepaginas=this.longituddepaginas-1;
+          }
           this.pages = Array.from({ length: this.longituddepaginas }, (_, i) => i + 1);
         } else {
           // Incrementar la página y hacer la llamada recursivamente
