@@ -21,7 +21,7 @@ export class ExperienciaComponent implements OnInit {
   users: User[] = []; // Lista de usuarios para los desplegables
   usersfe: User[] = []; // Lista de usuarios para los desplegables
   selectedParticipants: string[] = []; // Participantes seleccionados como ObjectId
-  errorMessage: string = ''; // Variable para mostrar mensajes de error
+  errorMessage: string = '';// Variable para mostrar mensajes de error
   ownerFilter: undefined | string = '' ;
   isModalVisible: boolean = false;
 

@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { VinosService } from '../../services/vinos.service';  // Importar el servicio
 import { Vinos } from '../../models/vinos.model';  // Importar el modelo
 import { FormsModule, NgForm } from '@angular/forms';  // Import FormsModule y NgForm para manejar el formulario
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-vinos',
