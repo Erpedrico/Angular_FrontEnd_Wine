@@ -1,5 +1,3 @@
-
-
 export interface Vinos{
     _id?: string;  // Propiedad opcional _id para el ID de la experiencia
     owner: string,

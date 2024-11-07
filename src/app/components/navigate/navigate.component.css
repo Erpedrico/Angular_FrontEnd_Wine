@@ -12,6 +12,8 @@ ul {
 
 li {
     margin: 0;
+    user-select: none; /* Desactiva la selección de texto */
+    cursor: default;   /* Cambia el cursor a uno normal */
 }
 
 li a {
