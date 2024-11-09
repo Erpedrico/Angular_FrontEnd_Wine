@@ -29,15 +29,23 @@ export class UsuarisComponent implements OnInit {
   longituddepaginas: number = 10;
   numeroPP: number = 5;
   resuelto: boolean = false;
+  userFilter: undefined | string = '' ;
   newPage: pageInterface = {
     paginas: 0,
     numerodecaracterespp: 5
   };
 
-
   nuevoUsuario: User = {
     name: '',
-    mail: '', // Añadir el campo email
+    mail: '', 
+    password: '',
+    comment: '',
+    habilitado: true
+  };
+
+  nuevoUsuario2: User = {
+    name: '',
+    mail: '', 
     password: '',
     comment: '',
     habilitado: true
@@ -72,7 +80,7 @@ export class UsuarisComponent implements OnInit {
 
   ngOnInit(): void {
     // Cargar usuarios desde el UserService
-    this.getUsers();
+    this.getUsers(this.userFilter);
     this.getExperiencias();
     this.calculPage();
   }
@@ -101,7 +109,7 @@ export class UsuarisComponent implements OnInit {
   changePage(page: number): void {
     this.currentPage = page;
     this.newPage.paginas = page - 1;
-    this.getUsers();
+    this.getUsers(this.userFilter);
   }
 
   calculPage(): void {
@@ -111,6 +119,9 @@ export class UsuarisComponent implements OnInit {
         if (data.length < this.newPage.numerodecaracterespp) {
           // Si recibimos menos de 5 usuarios, asumimos que es la última página
           this.resuelto = true;
+          if (data.length==0){
+            this.newPage.paginas = this.newPage.paginas - 1; 
+          }
           this.longituddepaginas = this.newPage.paginas + 1;
           this.pages = Array.from({ length: this.longituddepaginas }, (_, i) => i + 1);
         } else {
@@ -133,20 +144,36 @@ export class UsuarisComponent implements OnInit {
     this.newPage.paginas = 0;
     this.currentPage = 1;
     await console.log('Número de usuarios ingresado:', this.newPage);
-    await this.getUsers();
+    await this.getUsers(this.userFilter);
     await this.calculPage();
   }
 
-  getUsers(): void {
-    this.userService.getUsers(this.newPage).subscribe(
-      (data: User[]) => {
-        this.usuarios = data;
-        console.log('Usuarios recibidos:', data.length);
-      },
-      (error) => {
-        console.error('Error al obtener los usuarios:', error);
-      }
-    );
+  getUsers(userFiltered:string|undefined): void {
+    if (userFiltered==''){
+      this.userService.getUsers(this.newPage).subscribe(
+        (data: User[]) => {
+          this.usuarios = data.filter(exp => exp._id !== undefined);;
+          console.log('Usuarios recibidos:', data.length);
+        },
+        (error) => {
+          console.error('Error al obtener los usuarios:', error);
+        }
+      );
+    } else {
+      this.userService.getUsers(this.newPage).subscribe(
+        (data: User[]) => {
+          // Encuentra el primer usuario que coincide con el filtro
+          const usuarioFiltrado = data.find(exp => exp._id !== undefined && exp.name === userFiltered);
+          // Asigna el resultado a `usuarios`, si existe el usuario, lo guarda en un array; si no, será un array vacío
+          this.usuarios = usuarioFiltrado ? [usuarioFiltrado] : [];
+    
+          console.log('Usuarios recibidos:', data.length);
+        },
+        (error) => {
+          console.error('Error al obtener los usuarios:', error);
+        }
+      );
+    }
   }
 
   // Obtener la lista de experiencias desde la API
@@ -302,6 +329,27 @@ export class UsuarisComponent implements OnInit {
         console.error('Error al cambiar el estado de habilitación:', error);
       }
     );
+  }
+
+  onFilter(): void {
+    this.userFilter = this.nuevoUsuario2.name;
+    console.log(this.userFilter);
+    this.getUsers(this.userFilter);
+    this.nuevoUsuario2 = {
+      name: '',
+      mail: '', 
+      password: '',
+      comment: '',
+      habilitado: true
+    };
+    this.changePage(1);
+  }
+
+  elFilter():void{
+    this.userFilter = '';
+    this.getUsers(this.userFilter);
+    this.calculPage();
+    this.changePage(1);
   }
 
   showModal() {

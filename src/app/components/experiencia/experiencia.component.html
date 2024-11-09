@@ -7,7 +7,7 @@
         <label for="owner">Propietario:</label>
         <input 
           id="owner" 
-          [(ngModel)]="newExperience.owner.name" 
+          [(ngModel)]="newExperience.owner" 
           name="owner"
           placeholder="Nombre del usuario propietario" 
           required/>
@@ -32,7 +32,7 @@
         <label for="owner">Propietario:</label>
         <input 
           id="ownerF" 
-          [(ngModel)]="newExperience2.owner.name" 
+          [(ngModel)]="newExperience2.owner" 
           name="owner"
           placeholder="Nombre del usuario propietario" 
           required/>
@@ -40,10 +40,6 @@
       <button type="filter">Filtrar</button> 
     </form>
     <button (click)="elFilter()">Quitar filtros</button> 
-    <!-- Mensaje de error debajo del formulario -->
-    <div class="error-message" *ngIf="errorMessage">
-      {{ errorMessage }}
-    </div>
   </div>
 
   <!-- Lista de experiencias -->
@@ -51,13 +47,13 @@
     <h1>Lista de Experiencias</h1>
     <ul>
       <li *ngFor="let experiencia of experiencias; let i = index">
-        <h3>Propietario: {{ (experiencia.owner.name) }}</h3>
+        <h3>Propietario: {{ (experiencia.owner) }}</h3>
         <!-- <p>Descripción: {{ experiencia.description | truncate: 60}}</p> -->
         <p>Descripción: {{ experiencia.description}}</p>
         <h4>Participantes:</h4>
         <ul>
           <li *ngFor="let participant of experiencia.participants">
-            {{ (participant.name) }}
+            {{ (participant) }}
           </li>
         </ul>
         <button (click)="toggleHabilitacion(i)">

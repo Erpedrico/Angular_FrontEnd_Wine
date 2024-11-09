@@ -81,6 +81,23 @@
     </form>
   </div>
 
+  <div class="search-bar">
+    <form (ngSubmit)="onFilter()">
+      <div class="form-group">
+        <input 
+          type="text" 
+          id="ownerF" 
+          [(ngModel)]="nuevoUsuario2.name" 
+          name="owner"
+          placeholder="Buscar por nombre de usuario" 
+          required
+        />
+      </div>
+      <button type="submit">Filtrar</button>
+      <button type="button" (click)="elFilter()">Quitar filtros</button>
+    </form>
+  </div>
+  
 
   <!-- Lista de usuarios a la derecha -->
   <div class="lista-usuarios">

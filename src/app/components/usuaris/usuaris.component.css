@@ -243,3 +243,65 @@ button:hover {
 .modal-footer {
   margin-top: 20px;
 }
+
+.search-bar {
+  position: fixed;
+  top: 50px; /* Ajusta este valor para controlar la distancia desde la parte superior */
+  right: 10px; /* Mueve la barra hacia la derecha */
+  width: 500px; /* Ajusta el ancho de la barra según tus preferencias */
+  padding: 10px 20px;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-bar form {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.form-group {
+  flex: 1;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+}
+
+button[type="submit"] {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button[type="button"] {
+  padding: 8px 16px;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+button[type="button"]:hover {
+  background-color: #5a6268;
+}
+
+.error-message {
+  color: #d9534f;
+  font-weight: bold;
+  margin-top: 10px;
+}

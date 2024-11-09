@@ -19,9 +19,10 @@ import { pageInterface } from '../../models/paginacion.model';
 export class ExperienciaComponent implements OnInit {
   experiencias: Experiencia[] = []; // Lista de experiencias
   users: User[] = []; // Lista de usuarios para los desplegables
-  usersfe: User[] = []; // Lista de usuarios para los desplegables
   selectedParticipants: string[] = []; // Participantes seleccionados como ObjectId
   errorMessage: string = '';// Variable para mostrar mensajes de error
+  username: string = '';
+  usernamesofparticipants: string[] = [];
   ownerFilter: undefined | string = '' ;
   isModalVisible: boolean = false;
 
@@ -47,19 +48,19 @@ export class ExperienciaComponent implements OnInit {
 
   // Estructura inicial para una nueva experiencia
   newExperience: Experiencia = {
-    owner: this.nuevoUsuario,
-    participants: this.usersfe,
+    owner: '',
+    participants: [''],
     description: '',
     habilitado: true
   };
 
   newExperience2: Experiencia = {
-    owner: this.nuevoUsuario1,
-    participants: this.usersfe1,
+    owner: '',
+    participants: [''],
     description: '',
-    habilitado:true
+    habilitado: true
   };
-
+  
   constructor(private experienciaService: ExperienciaService, private userService: UserService) {}
 
   filterExperiencias='';
@@ -100,7 +101,7 @@ export class ExperienciaComponent implements OnInit {
       this.experienciaService.getExperiencias().subscribe(
         (data: Experiencia[]) => {
           // Filtrar experiencias que tengan _id definido
-          this.experiencias = data.filter(exp => exp._id !== undefined && exp.owner.name == ownerF);
+          this.experiencias = data.filter(exp => exp._id !== undefined && exp.owner == ownerF);
           console.log('Experiencias recibidas:', data);
         },
         (error) => {
@@ -108,7 +109,6 @@ export class ExperienciaComponent implements OnInit {
         }
       );
     }
-    
   }
 
   // Obtener la lista de usuarios desde la API
@@ -125,12 +125,12 @@ export class ExperienciaComponent implements OnInit {
   }
   
   onFilter(): void {
-    this.ownerFilter = this.newExperience2.owner._id;
+    this.ownerFilter = this.newExperience2.owner;
     console.log('filtrao',this.newExperience2.owner);
     this.getExperienciasFiltradas(this.ownerFilter);
     this.newExperience = {
-      owner: this.nuevoUsuario,
-      participants: this.usersfe,
+      owner: '',
+      participants: [''],
       description: '',
       habilitado: true
     };
@@ -164,8 +164,8 @@ export class ExperienciaComponent implements OnInit {
     }
 
     // Convertir selectedParticipants a ObjectId[] vacío antes de enviar al backend
-    this.newExperience.owner = this.user;
-    this.newExperience.participants = this.users;
+    this.newExperience.owner = this.username;
+    this.newExperience.participants = this.usernamesofparticipants;
 
     // Llamar al servicio para agregar la nueva experiencia
     this.experienciaService.addExperiencia(this.newExperience).subscribe(
@@ -198,8 +198,8 @@ export class ExperienciaComponent implements OnInit {
   // Resetear el formulario después de crear una experiencia
   resetForm(): void {
     this.newExperience = {
-      owner: this.nuevoUsuario,
-      participants: this.usersfe,
+      owner: '',
+      participants: [''],
       description: '',
       habilitado: true
     };
