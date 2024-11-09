@@ -2,13 +2,16 @@
 <div class="vinos-list">
     <h1>Lista de Vinos</h1>
     <ul>
-      <li *ngFor="let vino of vinos">
+      <li *ngFor="let vino of vinos; let i = index">
         <h3>Nombre: {{ vino.name }}</h3>
         <!-- <p>Descripción: {{ experiencia.description | truncate: 60}}</p> -->
         <p>Precio: {{ vino.price}}</p>
         <p>Color: {{ vino.color}}</p>
         <p>Marca: {{ vino.brand}}</p>
         <p>Grapetype: {{ vino.grapetype}}</p>
+        <button (click)="toggleHabilitacion(i)">
+          {{ vino.habilitado ? 'Inhabilitar' : 'Habilitar' }}
+        </button>
         
         
         <!-- Botón para eliminar la experiencia -->

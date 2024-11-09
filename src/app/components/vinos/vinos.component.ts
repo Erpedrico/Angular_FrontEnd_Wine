@@ -24,5 +24,24 @@ export class VinosComponent implements OnInit {
       console.log('Lista de vinos:', this.vinos);  // Verificar en la consola si los datos se obtienen correctamente
     });
   }
+
+  toggleHabilitacion(index: number): void {
+    const vino = this.vinos[index];
+    
+    // Alternar el valor de habilitado
+    const nuevoEstado = !vino.habilitado;
+  
+    // Llamar al servicio para actualizar el estado en la base de datos
+    this.vinosService.toggleHabilitacion(vino._id!, nuevoEstado).subscribe(
+      (actualizado: Vinos) => {
+        // Actualizar el usuario en el array del frontend
+        this.vinos[index].habilitado = nuevoEstado;
+        console.log(`Usuario ${actualizado.name} actualizado: habilitado=${actualizado.habilitado}`);
+      },
+      (error) => {
+        console.error('Error al cambiar el estado de habilitación:', error);
+      }
+    );
+  }
 }
 

@@ -25,6 +25,7 @@ export class UsuarisComponent implements OnInit {
   desplegarBiografia: boolean[] = [];
   mostrarPassword: boolean[] = []; // Array para controlar la visibilidad de la contraseña
   formularioVisible: boolean = false;
+  isModalVisible: boolean = false;
   longituddepaginas: number = 10;
   numeroPP: number = 5;
   resuelto: boolean = false;
@@ -303,6 +304,14 @@ export class UsuarisComponent implements OnInit {
         console.error('Error al cambiar el estado de habilitación:', error);
       }
     );
+  }
+
+  showModal() {
+    this.isModalVisible = true;
+  }
+
+  closeModal() {
+    this.isModalVisible = false;
   }
 }
 
