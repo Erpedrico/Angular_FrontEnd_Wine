@@ -20,8 +20,8 @@ export class ExperienciaComponent implements OnInit {
   experiencias: Experiencia[] = []; // Lista de experiencias
   users: User[] = []; // Lista de usuarios para los desplegables
   usersfe: User[] = []; // Lista de usuarios para los desplegables
-  usersfe1: User[] = []; // Lista de usuarios para los desplegables
-  errorMessage: string = ''; // Variable para mostrar mensajes de error
+  selectedParticipants: string[] = []; // Participantes seleccionados como ObjectId
+  errorMessage: string = '';// Variable para mostrar mensajes de error
   ownerFilter: undefined | string = '' ;
   isModalVisible: boolean = false;
 

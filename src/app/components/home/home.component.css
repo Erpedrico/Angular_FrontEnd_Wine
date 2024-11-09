@@ -14,14 +14,19 @@ body {
   justify-content: center;
   height: 100vh;
   text-align: center; /* Centrar el texto */
+  user-select: none; /* Desactiva la selección de texto */
+  cursor: default;   /* Cambia el cursor a uno normal */
 }
 
+
+
 /* Imagen del logo */
-.winer-logo {
+.winer-logo  {
   width: 300px;
   height: auto;
   margin-bottom: 20px;
   animation: bounce 2s infinite;
+
 }
 
 /* Animación de rebote */

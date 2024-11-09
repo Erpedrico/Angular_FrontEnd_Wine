@@ -7,6 +7,8 @@
   padding: 40px;
   max-width: 1600px;
   margin: 0 auto;
+  user-select: none; /* Desactiva la selección de texto */
+  cursor: default;   /* Cambia el cursor a uno normal */
 }
 
 /* Estilo del contenedor del formulario */
@@ -68,8 +70,6 @@ input, textarea {
   font-size: 1rem;
   transition: background-color 0.3s ease;
 }
-
-
 
 .submit-button:hover {
   background-color: #388E3C; /* Verde más oscuro */

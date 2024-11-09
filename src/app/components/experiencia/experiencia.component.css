@@ -14,6 +14,8 @@ body {
   gap: 20px; /* Reducir el espacio entre el formulario y la lista */
   width: 90%;
   margin: 10px auto;
+  user-select: none; /* Desactiva la selección de texto */
+  cursor: default;   /* Cambia el cursor a uno normal */
 }
 
 /* Contenedor del formulario */

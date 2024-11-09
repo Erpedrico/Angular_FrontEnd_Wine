@@ -248,8 +248,6 @@ export class UsuarisComponent implements OnInit {
       alert('El usuario no se puede eliminar porque no está registrado en la base de datos.');
       return;
     }
-  
-    
       // Eliminar a través del UserService usando el _id como identificador
       this.userService.deleteUserById(usuarioAEliminar._id).subscribe(
         response => {
