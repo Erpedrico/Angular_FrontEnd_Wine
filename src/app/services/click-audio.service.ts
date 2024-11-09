@@ -3,16 +3,16 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class BackgroundAudioService {
+
+export class ClickAudioService {
   private audio = new Audio();
 
   constructor() {
-    this.audio.src = 'assets/audio/musica-de-fondo-juego-de-tronos.mp3';  // Ruta al archivo de audio
-    this.audio.load();
-    this.audio.loop = true;  // Para que la música se reproduzca en bucle
   }
 
-  playMusic(): void {
+  playMusic(audioUrl: string) {
+    this.audio.src = audioUrl;
+    this.audio.load();  // Asegúrate de que el archivo esté listo para reproducirse
     this.audio.play();
   }
 
