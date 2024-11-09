@@ -5,19 +5,12 @@
     <form (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label for="owner">Propietario:</label>
-        <select id="owner" [(ngModel)]="newExperience.owner" name="owner" required>
-          <option *ngFor="let user of users" [value]="user._id">
-            {{ user.name }}
-          </option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="participants">Participantes:</label>
-        <select id="participants" [(ngModel)]="selectedParticipants" name="participants" multiple>
-          <option *ngFor="let user of users" [value]="user._id">
-            {{ user.name }}
-          </option>
-        </select>
+        <input 
+          id="owner" 
+          [(ngModel)]="newExperience.owner.name" 
+          name="owner"
+          placeholder="Nombre del usuario propietario" 
+          required/>
       </div>
       <div class="form-group">
         <label for="description">Descripción:</label>
@@ -37,11 +30,12 @@
     <form (ngSubmit)="onFilter()">
       <div class="form-group">
         <label for="owner">Propietario:</label>
-        <select id="owner" [(ngModel)]="newExperience2.owner" name="owner">
-          <option *ngFor="let user of users" [value]="user._id">
-            {{ user.name }}
-          </option>
-        </select>
+        <input 
+          id="ownerF" 
+          [(ngModel)]="newExperience2.owner.name" 
+          name="owner"
+          placeholder="Nombre del usuario propietario" 
+          required/>
       </div> 
       <button type="filter">Filtrar</button> 
     </form>
@@ -57,13 +51,13 @@
     <h1>Lista de Experiencias</h1>
     <ul>
       <li *ngFor="let experiencia of experiencias; let i = index">
-        <h3>Propietario: {{ getNameByOwner(experiencia.owner) }}</h3>
+        <h3>Propietario: {{ (experiencia.owner.name) }}</h3>
         <!-- <p>Descripción: {{ experiencia.description | truncate: 60}}</p> -->
         <p>Descripción: {{ experiencia.description}}</p>
         <h4>Participantes:</h4>
         <ul>
           <li *ngFor="let participant of experiencia.participants">
-            {{ getUserNameById(participant) }}
+            {{ (participant.name) }}
           </li>
         </ul>
         <button (click)="toggleHabilitacion(i)">

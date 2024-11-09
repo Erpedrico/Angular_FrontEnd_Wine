@@ -252,15 +252,15 @@ export class UsuarisComponent implements OnInit {
       this.userService.deleteUserById(usuarioAEliminar._id).subscribe(
         response => {
           console.log('Usuario eliminado:', response);
-            this.usuarios.splice(index, 1);
-            this.desplegado.splice(index, 1);
-          },
-          error => {
-            console.error('Error al eliminar el usuario:', error);
-            alert('Error al eliminar el usuario. Por favor, inténtalo de nuevo.');
-          }
-        );
-    
+          this.usuarios.splice(index, 1);
+          this.desplegado.splice(index, 1);
+        },
+        error => {
+          console.error('Error al eliminar el usuario:', error);
+          alert('Error al eliminar el usuario. Por favor, inténtalo de nuevo.');
+        }
+      );
+      this.isModalVisible = false;
   }
   
 
