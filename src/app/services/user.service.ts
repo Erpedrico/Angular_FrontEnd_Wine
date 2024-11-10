@@ -1,21 +1,27 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../models/user.model';
 import { pageInterface } from '../models/paginacion.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   private apiUrl = "http://localhost:3000/api/user";  // Usar apiUrl desde environment
+  token: string | null = null;
+  newURL: string = '';
+  constructor(private http: HttpClient, private authService:AuthService) {}
 
-  constructor(private http: HttpClient) {}
-
-  // Obtener todos los usuarios
   getUsers(paginacion: pageInterface): Observable<User[]> {
-    return this.http.post<User[]>(`${this.apiUrl}/all`, paginacion);
+    // Obtener los headers con el token
+    const headers = this.getHeaders();
+  
+    // Hacer la solicitud POST con el token en los headers
+    return this.http.post<User[]>(`${this.apiUrl}/all`, paginacion, { headers });
   }
+  
 
   // Agregar un nuevo usuario
   addUser(usuario: User): Observable<User> {
@@ -35,6 +41,21 @@ export class UserService {
   //Habilitar o deshabilitar un usuario
   toggleHabilitacion(id: string, habilitado: boolean): Observable<User> {
     return this.http.patch<User>(`${this.apiUrl}/${id}/habilitacion`, { habilitado });
+  }
+
+  getToken() {
+    this.token = this.authService.getToken();
+  }
+  
+  loginUser(mail:string, password:string) {// we need to complete the function
+    return this.http.post<any>(this.apiUrl+'/login',{mail, password});
+  }
+
+  getHeaders() {
+    this.getToken();
+    let headers = new HttpHeaders();
+    headers = headers.set('winer+jwt', this.token || '');
+    return headers;
   }
 }
 
