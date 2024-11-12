@@ -20,26 +20,12 @@ export class ExperienciaComponent implements OnInit {
   experiencias: Experiencia[] = []; // Lista de experiencias
   users: User[] = []; // Lista de usuarios para los desplegables
   selectedParticipants: string[] = []; // Participantes seleccionados como ObjectId
+  successMessage: string = '';
   errorMessage: string = '';// Variable para mostrar mensajes de error
   username: string = '';
   usernamesofparticipants: string[] = [];
   ownerFilter: undefined | string = '' ;
   isModalVisible: boolean = false;
-
-  nuevoUsuario: User = {
-    name: '',
-    mail: '', // Añadir el campo email
-    password: '',
-    comment: '',
-    habilitado: true
-  };
-  nuevoUsuario1: User = {
-    name: '',
-    mail: '', // Añadir el campo email
-    password: '',
-    comment: '',
-    habilitado: true
-  };
 
   nuevapaginacion: pageInterface = {
     paginas: 1,
@@ -77,10 +63,21 @@ export class ExperienciaComponent implements OnInit {
       (data: Experiencia[]) => {
         // Filtrar experiencias que tengan _id definido
         this.experiencias = data.filter(exp => exp._id !== undefined);
-        console.log('Experiencias recibidas:', data);
       },
       (error) => {
         console.error('Error al obtener las experiencias:', error);
+      }
+    );
+  }
+
+  // Obtener la lista de usuarios desde la API
+  getUsers(): void {
+    this.userService.getUsers({ paginas: 1, numerodecaracterespp: 5 }).subscribe(
+      (data: User[]) => {
+        this.users = data;
+      },
+      (error) => {
+        console.error('Error al obtener los usuarios:', error);
       }
     );
   }
@@ -111,18 +108,7 @@ export class ExperienciaComponent implements OnInit {
     }
   }
 
-  // Obtener la lista de usuarios desde la API
-  getUsers(): void {
-    this.userService.getUsers(this.nuevapaginacion).subscribe(
-      (data: User[]) => {
-        this.users = data;
-        console.log('Usuarios recibidos:', data);
-      },
-      (error) => {
-        console.error('Error al obtener los usuarios:', error);
-      }
-    );
-  }
+  
   
   onFilter(): void {
     this.ownerFilter = this.newExperience2.owner;
@@ -156,6 +142,7 @@ export class ExperienciaComponent implements OnInit {
   onSubmit(): void {
     
     this.errorMessage = ''; // Limpiar mensajes de error
+    this.successMessage = '';
 
     // Verificar si los campos están vacíos
     if (!this.newExperience.owner || !this.newExperience.description) {
@@ -163,22 +150,29 @@ export class ExperienciaComponent implements OnInit {
       return;
     }
 
-    // Convertir selectedParticipants a ObjectId[] vacío antes de enviar al backend
-    this.newExperience.owner = this.username;
-    this.newExperience.participants = this.usernamesofparticipants;
-
-    // Llamar al servicio para agregar la nueva experiencia
-    this.experienciaService.addExperiencia(this.newExperience).subscribe(
-      (response) => {
-        console.log('Experiencia creada:', response);
-        this.getExperiencias(); // Actualizar la lista de experiencias después de crear una nueva
-        this.resetForm(); // Limpiar el formulario
+    // Buscar usuario por nombre y crear experiencia si existe
+    this.userService.getUserByName(this.newExperience.owner).subscribe(
+      (userId: string | null) => { // Cambiado a string | null
+        if (userId) {  // Verificar si userId no es nulo
+          this.experienciaService.addExperiencia(this.newExperience).subscribe(
+            (response) => {
+              this.successMessage = 'Experiencia creada correctamente.';
+              this.getExperiencias(); // Actualizar la lista de experiencias después de crear una nueva
+              this.resetForm(); // Limpiar el formulario
+            },
+            (error) => {
+              this.errorMessage = 'Error al crear la experiencia.';
+            }
+          );
+        } else {
+          console.log(userId);
+          this.errorMessage = 'No existe ningún usuario con ese nombre.';
+        }
       },
       (error) => {
-        console.error('Error al crear la experiencia:', error);
+        this.errorMessage = 'Error al buscar el usuario.';
       }
-    );
-    
+    );    
   }
 
   // Método para eliminar una experiencia por su ID

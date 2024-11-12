@@ -17,6 +17,11 @@ export class UserService {
     return this.http.post<User[]>(`${this.apiUrl}/all`, paginacion);
   }
 
+  // Obtener un usuario según su ID
+  getUserByName(name: string): Observable<string | null> {
+    return this.http.get<string | null>(`${this.apiUrl}/findByName/${name}`);
+  }
+
   // Agregar un nuevo usuario
   addUser(usuario: User): Observable<User> {
     return this.http.post<User>(this.apiUrl, usuario);
@@ -36,6 +41,7 @@ export class UserService {
   toggleHabilitacion(id: string, habilitado: boolean): Observable<User> {
     return this.http.patch<User>(`${this.apiUrl}/${id}/habilitacion`, { habilitado });
   }
+
 }
 
 
