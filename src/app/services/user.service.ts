@@ -14,6 +14,17 @@ export class UserService {
   newURL: string = '';
   constructor(private http: HttpClient, private authService:AuthService) {}
 
+  getToken(){
+    return this.authService.getToken();
+  }
+
+  getHeaders(){
+    this.token = this.getToken();
+    let headers = new HttpHeaders();
+    headers = headers.set('x-access-token', this.token || '');
+    return headers;
+  }
+
   getUsers(paginacion: pageInterface): Observable<User[]> {
     // Obtener los headers con el token
     const headers = this.getHeaders();
@@ -30,32 +41,22 @@ export class UserService {
 
   // Actualizar un usuario existente
   updateUser(usuario: User): Observable<User> {
-    return this.http.put<User>(`${this.apiUrl}/${usuario._id}`, usuario);
+    return this.http.put<User>(`${this.apiUrl}/${usuario._id}`, usuario, { headers: this.getHeaders() });
   }
 
   // Eliminar un usuario por su _id
   deleteUserById(id: string): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/${id}`);
+    return this.http.delete<any>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
   }
 
   //Habilitar o deshabilitar un usuario
   toggleHabilitacion(id: string, habilitado: boolean): Observable<User> {
-    return this.http.patch<User>(`${this.apiUrl}/${id}/habilitacion`, { habilitado });
+    return this.http.patch<User>(`${this.apiUrl}/${id}/habilitacion`, { habilitado }, { headers: this.getHeaders() });
   }
 
-  getToken() {
-    this.token = this.authService.getToken();
-  }
   
   loginUser(mail:string, password:string) {// we need to complete the function
-    return this.http.post<any>(this.apiUrl+'/login',{mail, password});
-  }
-
-  getHeaders() {
-    this.getToken();
-    let headers = new HttpHeaders();
-    headers = headers.set('winer+jwt', this.token || '');
-    return headers;
+    return this.http.post<any>(this.apiUrl+'/logIn',{mail, password});
   }
 }
 
