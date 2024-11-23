@@ -21,7 +21,7 @@ export class UserService {
   getHeaders(){
     this.token = this.getToken();
     let headers = new HttpHeaders();
-    headers = headers.set('x-access-token', this.token || '');
+    headers = headers.set('auth-token', this.token || '');
     return headers;
   }
 
