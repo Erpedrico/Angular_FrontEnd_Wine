@@ -55,8 +55,8 @@ export class UserService {
   }
 
   
-  loginUser(mail:string, password:string) {// we need to complete the function
-    return this.http.post<any>(this.apiUrl+'/logIn',{mail, password});
+  loginUser(username:string, password:string) {// we need to complete the function
+    return this.http.post<any>(this.apiUrl+'/logIn',{username, password});
   }
 }
 
