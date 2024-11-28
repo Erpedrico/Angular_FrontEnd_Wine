@@ -50,6 +50,13 @@ export class LoginComponent {
           console.log('user.name:', data.user.name); // Verifica que 'name' no sea undefined
           console.log('user.username:', data.user.username); // Verifica que 'username' no sea undefined
   
+          // Verificar si el usuario está habilitado
+          if (data.user.habilitado === false) {
+            // Si 'habilitado' es false, muestra el mensaje de alerta y termina el proceso
+            alert('Usted está deshabilitado.');
+            return; // Detiene el proceso de login
+          }
+  
           // Verifica si los campos del usuario son válidos (no son undefined)
           if (data.user._id !== undefined && data.user.name !== undefined && data.user.username !== undefined) {
             this.authService.setUserId(data.user._id);
@@ -72,6 +79,7 @@ export class LoginComponent {
       });
     }
   }
+  
   
   
 
