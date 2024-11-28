@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { FormsModule, ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router'; // Importa el Router
 
 @Component({
   selector: 'app-login',
@@ -13,10 +14,14 @@ import { AuthService } from '../../services/auth.service';
 export class LoginComponent {
   token: string | null = null;
   loggedIn: boolean = false;
-    loginError: string | null = null; // Para manejar errores de login
+  loginError: string | null = null; // Para manejar errores de login
 
 
-  constructor( public userService: UserService, public authService: AuthService) {}
+  constructor(
+    public userService: UserService,
+    public authService: AuthService,
+    private router: Router // Inyecta el Router
+  ) {}
 
   // Modificar el formulario para usar 'username' en lugar de 'email'
   loginForm = new FormGroup({
@@ -74,6 +79,7 @@ export class LoginComponent {
         this.authService.setToken(token);  // Guarda el token en el AuthService
   
         this.loggedIn = true;
+        this.router.navigate(['/home']);
       }, (error) => {
         console.error('Error en la solicitud de login:', error);
       });

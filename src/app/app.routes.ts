@@ -5,15 +5,16 @@ import { ExperienciaComponent } from './components/experiencia/experiencia.compo
 import { HomeComponent } from './components/home/home.component';
 import { VinosComponent } from './components/vinos/vinos.component';
 import { LoginComponent } from './components/login/login.component';
+import { AuthGuard } from './services/auth.guard'; // Importa el guard
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' }, // Redirige a Home por defecto
-  { path: 'home', component: HomeComponent },
-  { path: 'usuaris', component: UsuarisComponent },
-  { path: 'experiencia', component: ExperienciaComponent },
-  { path: 'vinos', component: VinosComponent },
+  { path: '', redirectTo: 'login', pathMatch: 'full' }, // Redirige a Home por defecto
   { path: 'login', component: LoginComponent },
-  { path: '**', redirectTo: 'home' } // Redirige cualquier ruta desconocida a Home
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'usuaris', component: UsuarisComponent, canActivate: [AuthGuard] },
+  { path: 'experiencia', component: ExperienciaComponent, canActivate: [AuthGuard] },
+  { path: 'vinos', component: VinosComponent, canActivate: [AuthGuard] },
+  { path: '**', redirectTo: 'login' } // Redirige cualquier ruta desconocida al login
 ];
 
 @NgModule({
