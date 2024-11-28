@@ -12,13 +12,13 @@ export class UserService {
   private apiUrl = "http://localhost:3000/api/user";  // Usar apiUrl desde environment
   token: string | null = null;
   newURL: string = '';
-  constructor(private http: HttpClient, private authService:AuthService) {}
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
-  getToken(){
+  getToken() {
     return this.authService.getToken();
   }
 
-  getHeaders(){
+  getHeaders() {
     this.token = this.getToken();
     let headers = new HttpHeaders();
     headers = headers.set('auth-token', this.token || '');
@@ -28,17 +28,17 @@ export class UserService {
   getUsers(paginacion: pageInterface): Observable<User[]> {
     // Obtener los headers con el token
     const headers = this.getHeaders();
-  
+
     // Hacer la solicitud POST con el token en los headers
     return this.http.post<User[]>(`${this.apiUrl}/all`, paginacion, { headers });
   }
-  
+
 
   // Agregar un nuevo usuario con token en los headers
-addUser(usuario: User): Observable<User> {
-  const headers = this.getHeaders(); // Obtener los headers con el token
-  return this.http.post<User>(this.apiUrl, usuario, { headers });
-}
+  addUser(usuario: User): Observable<User> {
+    const headers = this.getHeaders(); // Obtener los headers con el token
+    return this.http.post<User>(this.apiUrl, usuario, { headers });
+  }
 
 
   // Actualizar un usuario existente
@@ -56,9 +56,14 @@ addUser(usuario: User): Observable<User> {
     return this.http.patch<User>(`${this.apiUrl}/${id}/habilitacion`, { habilitado }, { headers: this.getHeaders() });
   }
 
-  
-  loginUser(username:string, password:string) {// we need to complete the function
-    return this.http.post<any>(this.apiUrl+'/logIn',{username, password});
+
+  loginUser(username: string, password: string) {// we need to complete the function
+    return this.http.post<any>(this.apiUrl + '/logIn', { username, password });
+  }
+
+  // Obtener un usuario según su ID
+  getUserByName(name: string): Observable<string | null> {
+    return this.http.get<string | null>(`${this.apiUrl}/findByName/${name}`);
   }
 }
 

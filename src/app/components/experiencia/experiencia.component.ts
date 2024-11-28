@@ -20,30 +20,12 @@ export class ExperienciaComponent implements OnInit {
   experiencias: Experiencia[] = []; // Lista de experiencias
   users: User[] = []; // Lista de usuarios para los desplegables
   selectedParticipants: string[] = []; // Participantes seleccionados como ObjectId
+  successMessage: string = '';
   errorMessage: string = '';// Variable para mostrar mensajes de error
   username: string = '';
   usernamesofparticipants: string[] = [];
-  ownerFilter: undefined | string = '' ;
+  ownerFilter: undefined | string = '';
   isModalVisible: boolean = false;
-
-  nuevoUsuario: User = {
-    username:'',
-    name: '',
-    mail: '', // Añadir el campo email
-    password: '',
-    comment: '',
-    tipo:'admin',
-    habilitado: true
-  };
-  nuevoUsuario1: User = {
-    username:'',
-    name: '',
-    mail: '', // Añadir el campo email
-    password: '',
-    comment: '',
-    tipo:'admin',
-    habilitado: true
-  };
 
   nuevapaginacion: pageInterface = {
     paginas: 1,
@@ -64,10 +46,10 @@ export class ExperienciaComponent implements OnInit {
     description: '',
     habilitado: true
   };
-  
-  constructor(private experienciaService: ExperienciaService, private userService: UserService) {}
 
-  filterExperiencias='';
+  constructor(private experienciaService: ExperienciaService, private userService: UserService) { }
+
+  filterExperiencias = '';
 
   ngOnInit(): void {
     this.getExperiencias(); // Obtener la lista de experiencias
@@ -81,7 +63,6 @@ export class ExperienciaComponent implements OnInit {
       (data: Experiencia[]) => {
         // Filtrar experiencias que tengan _id definido
         this.experiencias = data.filter(exp => exp._id !== undefined);
-        console.log('Experiencias recibidas:', data);
       },
       (error) => {
         console.error('Error al obtener las experiencias:', error);
@@ -89,8 +70,8 @@ export class ExperienciaComponent implements OnInit {
     );
   }
 
-  getExperienciasFiltradas(ownerF:string|undefined): void {
-    if (ownerF==''){
+  getExperienciasFiltradas(ownerF: string | undefined): void {
+    if (ownerF == '') {
       this.experienciaService.getExperiencias().subscribe(
         (data: Experiencia[]) => {
           // Filtrar experiencias que tengan _id definido
@@ -127,10 +108,10 @@ export class ExperienciaComponent implements OnInit {
       }
     );
   }
-  
+
   onFilter(): void {
     this.ownerFilter = this.newExperience2.owner;
-    console.log('filtrao',this.newExperience2.owner);
+    console.log('filtrao', this.newExperience2.owner);
     this.getExperienciasFiltradas(this.ownerFilter);
     this.newExperience = {
       owner: '',
@@ -140,49 +121,57 @@ export class ExperienciaComponent implements OnInit {
     };
   }
 
-  elFilter():void{
+  elFilter(): void {
     this.ownerFilter = '';
     this.getExperienciasFiltradas(this.ownerFilter);
   }
 
   // Obtener el nombre de un usuario dado su ObjectId
-  getUserNameById(participantes:User): string|null {
+  getUserNameById(participantes: User): string | null {
     const user = participantes.name;
     return user ? user : 'Desconocido';
   }
 
-  getNameByOwner(participantes:User): string|null {
+  getNameByOwner(participantes: User): string | null {
     const user = participantes.name;
     return user ? user : 'Desconocido';
   }
-  
+
   // Manejar el envío del formulario con validación de campos
   onSubmit(): void {
-    
-    this.errorMessage = ''; // Limpiar mensajes de error
 
+    this.errorMessage = ''; // Limpiar mensajes de error
+    this.successMessage = '';
     // Verificar si los campos están vacíos
     if (!this.newExperience.owner || !this.newExperience.description) {
       this.errorMessage = 'Todos los campos son obligatorios.';
       return;
     }
 
-    // Convertir selectedParticipants a ObjectId[] vacío antes de enviar al backend
-    this.newExperience.owner = this.username;
-    this.newExperience.participants = this.usernamesofparticipants;
-
-    // Llamar al servicio para agregar la nueva experiencia
-    this.experienciaService.addExperiencia(this.newExperience).subscribe(
-      (response) => {
-        console.log('Experiencia creada:', response);
-        this.getExperiencias(); // Actualizar la lista de experiencias después de crear una nueva
-        this.resetForm(); // Limpiar el formulario
+    // Buscar usuario por nombre y crear experiencia si existe
+    this.userService.getUserByName(this.newExperience.owner).subscribe(
+      (userId: string | null) => { // Cambiado a string | null
+        if (userId) {  // Verificar si userId no es nulo
+          this.experienciaService.addExperiencia(this.newExperience).subscribe(
+            (response) => {
+              this.successMessage = 'Experiencia creada correctamente.';
+              this.getExperiencias(); // Actualizar la lista de experiencias después de crear una nueva
+              this.resetForm(); // Limpiar el formulario
+            },
+            (error) => {
+              this.errorMessage = 'Error al crear la experiencia.';
+            }
+          );
+        } else {
+          console.log(userId);
+          this.errorMessage = 'No existe ningún usuario con ese nombre.';
+        }
       },
       (error) => {
-        console.error('Error al crear la experiencia:', error);
+        this.errorMessage = 'Error al buscar el usuario.';
       }
     );
-    
+
   }
 
   // Método para eliminar una experiencia por su ID
@@ -212,10 +201,10 @@ export class ExperienciaComponent implements OnInit {
 
   toggleHabilitacion(index: number): void {
     const experiencia = this.experiencias[index];
-    
+
     // Alternar el valor de habilitado
     const nuevoEstado = !experiencia.habilitado;
-  
+
     // Llamar al servicio para actualizar el estado en la base de datos
     this.experienciaService.toggleHabilitacion(experiencia._id!, nuevoEstado).subscribe(
       (actualizado: Experiencia) => {
