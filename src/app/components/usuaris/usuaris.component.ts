@@ -35,20 +35,25 @@ export class UsuarisComponent implements OnInit {
     numerodecaracterespp: 5
   };
 
-  nuevoUsuario: User = {
+   // Ajustando la estructura de `nuevoUsuario` y `nuevoUsuario2` para incluir `username` y `tipo`
+   nuevoUsuario: User = {
+    username: '',
     name: '',
-    mail: '', 
+    mail: '',
     password: '',
     comment: '',
-    habilitado: true
+    tipo: 'wineLover', // Valor predeterminado
+    habilitado: true,
   };
 
   nuevoUsuario2: User = {
+    username: '',
     name: '',
-    mail: '', 
+    mail: '',
     password: '',
     comment: '',
-    habilitado: true
+    tipo: 'wineLover', // Valor predeterminado
+    habilitado: true,
   };
 
   confirmarPassword: string = ''; // Campo para confirmar la contraseña
@@ -89,14 +94,16 @@ export class UsuarisComponent implements OnInit {
     this.formularioVisible = true;
     this.indiceEdicion = null;
     this.nuevoUsuario = {
+      username: '',
       name: '',
-      mail: '', // Limpiar el campo email
+      mail: '',
       password: '',
       comment: '',
-      habilitado: true
+      tipo: 'wineLover', // Valor predeterminado
+      habilitado: true,
     };
-    this.confirmarPassword = ''; // Reiniciar el campo de confirmar contraseña
-    this.formSubmitted = false; // Restablecer el estado del formulario para no mostrar errores
+    this.confirmarPassword = '';
+    this.formSubmitted = false;
   }
 
   // Método para cerrar el formulario
@@ -191,61 +198,70 @@ export class UsuarisComponent implements OnInit {
   }
 
   // Función para agregar o modificar un usuario
-  agregarElemento(userForm: NgForm): void {
-    console.log('va');
-    this.formSubmitted = true;
-  
-    // Verificar si las contraseñas coinciden
-    if (this.nuevoUsuario.password !== this.confirmarPassword) {
+agregarElemento(userForm: NgForm): void {
+  this.formSubmitted = true;
+
+  // Verificar si las contraseñas coinciden
+  if (this.nuevoUsuario.password !== this.confirmarPassword) {
       alert('Las contraseñas no coinciden. Por favor, inténtalo de nuevo.');
       return;
-    }
-  
-    if (this.indiceEdicion !== null) {
+  }
+
+  if (this.indiceEdicion !== null) {
       // Estamos en modo edición, modificar el usuario existente
       this.usuarios[this.indiceEdicion] = { ...this.nuevoUsuario, _id: this.usuarios[this.indiceEdicion]._id };
-  
+
       // Actualizar el usuario en la API
       this.userService.updateUser(this.usuarios[this.indiceEdicion]).subscribe(response => {
-        console.log('Usuario actualizado:', response);
+          console.log('Usuario actualizado:', response);
+          alert('¡Usuario actualizado correctamente!');
       });
-  
+
       // Limpiar el estado de edición
       this.indiceEdicion = null;
-    } else {
+  } else {
+      console.log("Añadiendo usuario");
       // Modo agregar nuevo usuario
       const usuarioJSON: User = {
-        name: this.nuevoUsuario.name,
-        mail: this.nuevoUsuario.mail,
-        password: this.nuevoUsuario.password,
-        comment: this.nuevoUsuario.comment,
-        habilitado: this.nuevoUsuario.habilitado
+          username: this.nuevoUsuario.username,
+          name: this.nuevoUsuario.name,
+          mail: this.nuevoUsuario.mail,
+          password: this.nuevoUsuario.password,
+          comment: this.nuevoUsuario.comment,
+          tipo: this.nuevoUsuario.tipo,
+          habilitado: this.nuevoUsuario.habilitado
       };
-  
+
       // Enviar el usuario a la API a través del UserService
       this.userService.addUser(usuarioJSON).subscribe(response => {
-        console.log('Usuario agregado:', response);
-        
-        // Agregar el usuario con el _id generado por la API al array de usuarios en el frontend
-        this.usuarios.push({ ...usuarioJSON, _id: response._id });
-        this.desplegado.push(false); // Añadir un nuevo estado de desplegado
+          console.log('Usuario agregado:', response);
+
+          // Agregar el usuario con el _id generado por la API al array de usuarios en el frontend
+          this.usuarios.push({ ...usuarioJSON, _id: response._id });
+          this.desplegado.push(false); // Añadir un nuevo estado de desplegado
+
+          // Mostrar alerta de éxito
+          alert('¡Usuario creado correctamente!');
       });
-    }
-  
-    // Limpiar los campos del formulario y restablecer su estado
-    this.indiceEdicion = null;
-    this.resetForm(userForm);
-    this.cerrarFormulario();
   }
+
+  // Limpiar los campos del formulario y restablecer su estado
+  this.indiceEdicion = null;
+  this.resetForm(userForm);
+  this.cerrarFormulario();
+}
+
   
 
   // Función para limpiar el formulario
   resetForm(userForm: NgForm): void { // Aceptar userForm como parámetro
     this.nuevoUsuario = {
+      username:'',
       name: '',
       mail: '', // Limpiar el campo email
       password: '',
       comment: '',
+      tipo: 'admin',
       habilitado: true
     };
     this.confirmarPassword = ''; // Reiniciar el campo de confirmar contraseña
@@ -336,10 +352,12 @@ export class UsuarisComponent implements OnInit {
     console.log(this.userFilter);
     this.getUsers(this.userFilter);
     this.nuevoUsuario2 = {
+      username: '',
       name: '',
       mail: '', 
       password: '',
       comment: '',
+      tipo: 'admin',
       habilitado: true
     };
     this.changePage(1);

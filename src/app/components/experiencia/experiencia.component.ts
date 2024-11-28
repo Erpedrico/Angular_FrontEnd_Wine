@@ -27,17 +27,21 @@ export class ExperienciaComponent implements OnInit {
   isModalVisible: boolean = false;
 
   nuevoUsuario: User = {
+    username:'',
     name: '',
     mail: '', // Añadir el campo email
     password: '',
     comment: '',
+    tipo:'admin',
     habilitado: true
   };
   nuevoUsuario1: User = {
+    username:'',
     name: '',
     mail: '', // Añadir el campo email
     password: '',
     comment: '',
+    tipo:'admin',
     habilitado: true
   };
 

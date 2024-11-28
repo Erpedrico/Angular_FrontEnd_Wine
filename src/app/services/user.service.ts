@@ -34,10 +34,12 @@ export class UserService {
   }
   
 
-  // Agregar un nuevo usuario
-  addUser(usuario: User): Observable<User> {
-    return this.http.post<User>(this.apiUrl, usuario);
-  }
+  // Agregar un nuevo usuario con token en los headers
+addUser(usuario: User): Observable<User> {
+  const headers = this.getHeaders(); // Obtener los headers con el token
+  return this.http.post<User>(this.apiUrl, usuario, { headers });
+}
+
 
   // Actualizar un usuario existente
   updateUser(usuario: User): Observable<User> {
